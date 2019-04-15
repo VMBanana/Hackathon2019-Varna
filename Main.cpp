@@ -1,19 +1,15 @@
 #include <iostream>
 #include <thread>
-#include <chrono>
 #include "RandomGeneratorDLL.hpp"
-
-using namespace std;
-
 #include "Structs.hpp"
-#include "PollTemperatures.hpp"
+using namespace std;
 #include "SetTemperatures.hpp"
 #include "GetkWh.hpp"
 #include "CLI.hpp"
 
 int _cdecl main() {
-	//CLI();
-///Test values
+#ifdef _DEBUG //If Debug config
+	///Test values
 	AC[0].ACMinTemp = 16;
 	AC[0].ACMaxTemp = 30;
 	AC[0].ACPowerCool = 3.5;
@@ -31,7 +27,10 @@ int _cdecl main() {
 	AmbTemps.MinTemp = 18;
 	AmbTemps.MaxTemp = 24;
 	AmbTemps.Humidity = 80;
-///Test values
+	///Test values
+#else //If Release config
+	CLI();
+#endif
 
 	///Set global max and min temps
 	if (AC[0].ACMaxTemp < AC[1].ACMaxTemp) S[0].GlobalMaxTemp = S[1].GlobalMaxTemp = S[2].GlobalMaxTemp = S[3].GlobalMaxTemp = AC[0].ACMaxTemp;

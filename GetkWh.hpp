@@ -1,8 +1,8 @@
 #pragma once
+#include <chrono>
 /*
 *	Get kilowatts per hour
 *	Gets runtime of the ACs
-*	It's broken :(
 */
 void GetkWh() {
 	chrono::steady_clock::time_point t1 = chrono::steady_clock::now();

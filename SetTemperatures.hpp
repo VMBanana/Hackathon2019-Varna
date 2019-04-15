@@ -1,4 +1,5 @@
 #pragma once
+#include "PollTemperatures.hpp"
 /*
 *	Sets the temperature
 *	Here's where the magic happens
