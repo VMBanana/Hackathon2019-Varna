@@ -14,9 +14,10 @@ struct AC {
 } AC[1];
 
 struct Electricity {
-	bool OwnElectricity = false;									//Electricity is generated (not being paid for)
-	float CostPerWatt = -1.0F;										//Electricity cost in eur/kWh
-	float TotalCost = 0.0F;											//Electricity total runtime cost
+	bool OwnElectricity = false;		//Electricity is generated (not being paid for)
+	float CostPerWatt = -1.0F;			//Electricity cost in eur/kWh
+	float TotalCost = 0.0F;				//Electricity total runtime cost
+	unsigned long long TotalRuntime = 0;//Runtime in seconds
 } El;
 
 struct AmbientTemps {

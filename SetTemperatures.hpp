@@ -4,7 +4,7 @@
 *	Here's where the magic happens
 */
 void SetTemps() {
-	int i = 0;
+	int j = 0;
 	while (true) {
 
 #ifdef _WIN32
@@ -12,9 +12,9 @@ void SetTemps() {
 #elif _UNIX
 		system("clear");
 #endif
-		PollTemps(i);
-		if (i == 9)i = 0;
-		else i++;
+		PollTemps(j);
+		if (j == 9) j = 0;
+		else j++;
 		cout << "\tSetting...\n";
 
 		float* AvgTemp = new float;
@@ -27,33 +27,33 @@ void SetTemps() {
 		AmbTemps.CurrentTemp /= 2;
 
 		cout << "\nAverage temp = " << *AvgTemp << '\n';
-
-		if (AC[0].Mode) {
-		//Heating
-			if (*AvgTemp < AmbTemps.PrefTemp || *AvgTemp < AmbTemps.MinTemp) {
-				AC[0].Running = true;
-				AC[0].ACNewTemp = *AvgTemp;
-				cout << "AC is actiated\n";
+		for (int i = 0; i < 2; i++) {
+			if (AC[0].Mode) {
+				//Heating
+				if (*AvgTemp < AmbTemps.PrefTemp || *AvgTemp < AmbTemps.MinTemp) {
+					AC[i].Running = true;
+					AC[i].ACNewTemp = *AvgTemp;
+					cout << "AC is actiated\n";
+				}
+				else if (*AvgTemp >= AmbTemps.PrefTemp) {
+					AC[i].Running = false;
+					cout << "AC is deactiated\n";
+				}
 			}
-			else if (*AvgTemp >= AmbTemps.PrefTemp) {
-				AC[0].Running = false;
-				cout << "AC is deactiated\n";
+			else {
+				//Cooling
+				if (*AvgTemp > AmbTemps.PrefTemp || *AvgTemp > AmbTemps.MaxTemp) {
+					AC[i].Running = true;
+					AC[i].ACNewTemp = *AvgTemp;
+					cout << "AC is actiated\n";
+				}
+				else if (*AvgTemp <= AmbTemps.PrefTemp) {
+					AC[i].Running = false;
+					cout << "AC is deactiated\n";
+				}
 			}
 		}
-		else {
-		//Cooling
-			if (*AvgTemp > AmbTemps.PrefTemp || *AvgTemp > AmbTemps.MaxTemp) {
-				AC[0].Running = true;
-				AC[0].ACNewTemp = *AvgTemp;
-				cout << "AC is actiated\n";
-			}
-			else if (*AvgTemp <= AmbTemps.PrefTemp) {
-				AC[0].Running = false;
-				cout << "AC is deactiated\n";
-			}
-		}
-
 		delete AvgTemp;
-		this_thread::sleep_for(chrono::seconds(1));
+		this_thread::sleep_for(chrono::seconds(2));
 	}
 }
