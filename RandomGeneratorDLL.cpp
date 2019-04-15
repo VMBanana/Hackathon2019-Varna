@@ -1,24 +1,10 @@
-#include <math.h>
-#include <time.h>
-#include <random>
 #include "RandomGeneratorDLL.hpp"
-#define RAND_MAX 50
-int GenerateRandomTemp(int seed) {
-	srand((unsigned int)time(NULL));
-	int rnd = rand() % 10;
-	seed *= rnd;
-	return seed;
+float GenerateRandomTemp(int it) {
+	float a[] = { 30.0F,20.0F,25.0F,19.0F,20.0F,20.0F,20.0F,15.0F,15.0F,15.0F };
+	return a[it];
 }
 
-int GenerateRandomHumidity(int seed) {
-	srand((unsigned int)time(NULL));
-	int rnd = rand() % 10;
-	if (rnd == 0)seed = 0;
-	else seed /= rnd;
-	return seed * 5;
-}
-
-int RandomGenerator(int seed) {
-	srand(seed);
-	return rand() % 10;
+float GenerateRandomHumidity(int it) {
+	float a[] = { 80.0F,50.0F,100.0F,100.0F,32.0F,0.0F,90.0F,60.0F,70.0F,89.0F };
+	return a[it];
 }
