@@ -1,4 +1,8 @@
 #pragma once
+/*
+*	Basic data structures
+*	Data is stored in these structs
+*/
 struct AC {
 	float ACNewTemp = 0.0F;				//AC temperature to reach in Celsius
 	float ACMinTemp = 0.0F;				//AC minimum temp in Celsius

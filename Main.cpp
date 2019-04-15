@@ -1,44 +1,33 @@
 #include <iostream>
 #include <thread>
-#include <Windows.h>
 #include <chrono>
 #include "RandomGeneratorDLL.hpp"
+
+using namespace std;
+
 #include "Structs.hpp"
 #include "PollTemperatures.hpp"
 #include "SetTemperatures.hpp"
 #include "GetkWh.hpp"
-
-using namespace std;
+#include "CLI.hpp"
 
 int _cdecl main() {
-/*
-	cout << "\tHi!\nI'll need some details before I can do my work!\nFill in these fields so I know what I'm doing\n";
-	for (int i = 0; i < 2; i++) {
-		cout << "Enter your AC minimum supported temperature.\n\tIf you don't know it look it up in it's manual or search it on the internet\nAC minimum temp: ";
-		cin >> AC[i].ACMinTemp;
-
-		cout << "Enter your AC maximum supported temperature.\n\tIf you don't know it look it up in it's manual or search it on the internet\nAC maximum temp: ";
-		cin >> AC[i].ACMaxTemp;
-
-		cout << "Enter your AC power.\n\tIf you don't know it look it up in it's manual or search it on the internet\nAC power: ";
-		cin >> AC[i].ACPower;
-	}*/
-
+	//CLI();
 ///Test values
 	AC[0].ACMinTemp = 16;
 	AC[0].ACMaxTemp = 30;
 	AC[0].ACPowerCool = 3.5;
 	AC[0].ACPowerHeat = 4.5;
 	AC[0].Mode = false;
-	AC[0].Running = false;
+	AC[0].Running = true;
 	AC[1].ACMinTemp = 20;
 	AC[1].ACMaxTemp = 32;
 	AC[1].ACPowerCool = 3.52;
 	AC[1].ACPowerHeat = 5.12;
 	AC[1].Mode = false;
-	AC[0].Running = false;
+	AC[1].Running = true;
 	El.CostPerWatt = 0.32;
-	AmbTemps.PrefTemp = 22;
+	AmbTemps.PrefTemp = 30;
 	AmbTemps.MinTemp = 18;
 	AmbTemps.MaxTemp = 24;
 	AmbTemps.Humidity = 80;
@@ -51,58 +40,6 @@ int _cdecl main() {
 	if (AC[0].ACMinTemp > AC[1].ACMinTemp) S[0].GlobalMinTemp = S[1].GlobalMinTemp = S[2].GlobalMinTemp = S[3].GlobalMinTemp = AC[1].ACMinTemp;
 	else S[0].GlobalMinTemp = S[1].GlobalMinTemp = S[2].GlobalMinTemp = S[3].GlobalMinTemp = AC[0].ACMinTemp;
 
-/*
-	while (El.CostPerWatt < 0.0F) {
-		cout << "Please set your cost per kilowatt: ";
-		cin >> El.CostPerWatt;
-		if (!cin) {
-			cin.clear();
-			cin.ignore(1000, '\n');
-		}
-		if (El.CostPerWatt < 0.0)cout << "Let's be honest, you don't get paid by electrical companies...\n";
-		else if (El.CostPerWatt == 0.0F) {
-			cout << "Do you generate your own electricity?[Y/N] ";
-			char q1 = '\0';
-			cin >> q1;
-			if (q1 == 'Y' || q1 == 'y') El.OwnElectricity = true;
-		}
-	}
-	while (AmbTemps.PrefTemp < S[0].GlobalMinTemp || AmbTemps.PrefTemp > S[0].GlobalMaxTemp) {
-		cout << "Please set your preffered temperature: ";
-		cin >> AmbTemps.PrefTemp;
-		if (!cin) {
-			cin.clear();
-			cin.ignore(1000, '\n');
-		}
-	}
-	while (AmbTemps.MinTemp < S[0].GlobalMinTemp || AmbTemps.MinTemp > S[0].GlobalMaxTemp) {
-		cout << "Please set minimum temperature to set: ";
-		cin >> AmbTemps.MinTemp;
-		if (!cin) {
-			cin.ignore();
-			cin.clear(1000, '\n');
-		}
-	}
-	while (AmbTemps.MaxTemp < AmbTemps.MinTemp || AmbTemps.MaxTemp > S[0].GlobalMaxTemp) {
-		cout << "Please set maximum temperature to set: ";
-		cin >> AmbTemps.MaxTemp;
-		if (!cin) {
-			cin.ignore();
-			cin.clear(1000, '\n');
-		}
-		if (AmbTemps.MaxTemp <= AmbTemps.MinTemp) cout << "Maximum can't be below minimum. It doesn't work like that...\n";
-	}
-	while (AmbTemps.Humidity < 0.0F || AmbTemps.Humidity > 100.0F) {
-		cout << "Please set your preffered humidity: ";
-		cin >> AmbTemps.Humidity;
-		if (!cin) {
-			cin.ignore();
-			cin.clear(1000, '\n');
-		}
-		if (AmbTemps.Humidity <= 0) cout << "\tHumidity can't be less than zero. That doesn't make sense...\n";
-		else if (AmbTemps.Humidity > 100) cout << "\tHumidity cant be more than 100%. That doesn't make sense...\n";
-	}
-*/
 #ifdef _WIN32
 	system("CLS");
 #elif _UNIX
