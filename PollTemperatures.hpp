@@ -1,5 +1,4 @@
 #pragma once
-#include <Windows.h>
 void PollTemps() {
 	while (true) {
 		for (int i = 0; i < 4; i++) {

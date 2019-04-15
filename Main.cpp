@@ -1,9 +1,10 @@
 #include <iostream>
 #include <thread>
+#include <Windows.h>
 #include "RandomGeneratorDLL.hpp"
 #include "Structs.hpp"
 #include "PollTemperatures.hpp"
-//#include "SetTemperatures.hpp"
+#include "SetTemperatures.hpp"
 using namespace std;
 
 int _cdecl main() {
@@ -23,10 +24,12 @@ int _cdecl main() {
 ///Test values
 	AC[0].ACMinTemp = 16;
 	AC[0].ACMaxTemp = 30;
-	AC[0].ACPower = 3.5;
+	AC[0].ACPowerCool = 3.5;
+	AC[0].ACPowerHeat = 4.5;
 	AC[1].ACMinTemp = 20;
 	AC[1].ACMaxTemp = 32;
-	AC[1].ACPower = 3.52;
+	AC[1].ACPowerCool = 3.52;
+	AC[1].ACPowerHeat = 5.12;
 	El.CostPerWatt = 0.32;
 	AmbTemps.PrefTemp = 22;
 	AmbTemps.MinTemp = 18;
@@ -102,9 +105,9 @@ int _cdecl main() {
 	cout << "\n\n\tYou're set up!\n\tWe'll handle things for you from here! Just throw an eye each week to catch any problems\n";
 
 	thread POLL_THREAD(PollTemps);
-//	thread SET_TEMPS(SetTemps);
+	thread SET_TEMPS(SetTemps);
 	POLL_THREAD.join();
-//	SET_TEMPS.join();
+	SET_TEMPS.join();
 
 	return EXIT_SUCCESS;
 }
