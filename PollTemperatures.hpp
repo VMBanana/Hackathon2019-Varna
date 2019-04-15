@@ -1,12 +1,10 @@
 #pragma once
-void PollTemps() {
-	while (true) {
-		for (int i = 0; i < 4; i++) {
-			S[i].Temperature = GenerateRandomTemp(); //Get temperature from sensors here
-			std::cout << "S[" << i << "] - temp polled: " << S[i].Temperature << '\n';
-			S[i].Humidity = GenerateRandomHumidity(); //Get humidity from sensors here
-			std::cout << "S[" << i << "] - humidity polled: " << S[i].Humidity << '\n';
-			Sleep(500);
-		}
+void PollTemps(int i) {
+	for (int j = 0; j < 5; j++) {
+		S[j].Temperature = GenerateRandomTemp(i); //Get temperature from sensors here
+		std::cout << "S[" << j << "] - temp polled: " << S[j].Temperature << '\n';
+
+		S[j].Humidity = GenerateRandomHumidity(i); //Get humidity from sensors here
+		std::cout << "S[" << j << "] - humidity polled: " << S[j].Humidity << '\n';
 	}
 }

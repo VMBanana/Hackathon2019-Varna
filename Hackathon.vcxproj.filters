@@ -29,5 +29,8 @@
     <ClInclude Include="SetTemperatures.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GetkWh.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
