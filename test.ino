@@ -5,39 +5,45 @@
 #define ACMinTemp   16
 #define ACCoolPower 3.4
 #define ACHeatPower 3.6
-#define MaxTemp     40
-#define MinTemp     20
-#define PrefTemp    30
-#define CostPerkWh  0.3
+#define MaxTemp     22
+#define MinTemp     18
+#define PrefTemp    20
+#define CostPerkWh  0.18
 
 Chrono CTIMER;
 
 float AvgTemp, kWh;
 unsigned long Time = 0;
 byte AmbTemp, Humidity, TSens[5], CurrentTemp, ACNewTemp;
-byte Temps[10] = {20, 24, 20, 21, 21, 22, 23, 22, 21, 22};
 bool ACMode, ACRunning;
+
+
+int Vo;
+float logR2, R2, T;
+float c1 = 1.009249522e-03, c2 = 2.378405444e-04, c3 = 2.019202697e-07;
 
 void setup() {
   Serial.begin(1200);
   pinMode(12, OUTPUT);  //AC[0] -> LED ON
   pinMode(11, OUTPUT);  //AC[0] -> LED OFF
-  //rtc.begin();
 }
 
 void PollTemps(){
-  for (byte i=0;i<10;i++){
-    TSens[0]=Temps[i];
-    TSens[1]=Temps[i];
-    TSens[2]=Temps[i];
-    TSens[3]=Temps[i];
-    TSens[4]=Temps[i];
+  for (byte i=0;i<4;i++){
+    TSens[i]=trunc(Thermistor());
   }
+}
+
+float Thermistor(){
+  Vo = analogRead(A0);
+  R2 = 10000 * (1023.0 / (float)Vo - 1.0);
+  logR2 = log(R2);
+  T = (1.0 / (c1 + c2*logR2 + c3*logR2*logR2*logR2));
+  return T - 273.15;
 }
 
 void loop() {
     PollTemps();
-
     CurrentTemp = ((TSens[0] + TSens[1] + TSens[4]) / 3) + ((TSens[0] + TSens[2] + TSens[4]) / 3) >> 1;
 
     AvgTemp = ((TSens[1] + TSens[3] + TSens[4]) / 3) + ((TSens[2] + TSens[3] + TSens[4]) / 3) >> 1;
@@ -47,6 +53,9 @@ void loop() {
 
     Serial.print("\nAverage temp= ");
     Serial.println(AvgTemp);
+
+    (CurrentTemp > PrefTemp)? ACMode = true : ACMode = false;
+    
     for (byte i = 0; i < 2; i++) {
       if (ACMode) {
         //Heating
@@ -93,5 +102,4 @@ void loop() {
     (ACMode)? kWh = (T * ACHeatPower) : kWh = (T * ACCoolPower);
     Serial.print("kWh = ");
     Serial.println(kWh);
-    //delay(1000);
 }
